@@ -1,6 +1,6 @@
 {
     "name": "@openanime/hcl-unmarshal",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "A lightweight, zero-dependency TypeScript library that converts HashiCorp Configuration Language (HCL) into plain JSON objects. Seamlessly runs in Node.js, modern web browsers, and React Native environments.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

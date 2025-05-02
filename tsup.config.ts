@@ -9,4 +9,6 @@ export default defineConfig({
     splitting: true,
     minify: false,
     config: 'tsconfig.json',
+    sourcemap: true,
+    dts: true,
 });

@@ -3,7 +3,8 @@
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
         "alwaysStrict": false,
-        "declaration": false,
+        "declaration": true,
+        "declarationMap": true,
         "emitDecoratorMetadata": true,
         "esModuleInterop": true,
         "experimentalDecorators": true,
@@ -28,15 +29,7 @@
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "skipLibCheck": true,
-        "noEmit": true,
-        "paths": {
-            "@schemas/*": ["./src/schemas/*.ts"],
-            "@routes/*": ["./src/routes/*.ts"],
-            "@utils/*": ["./src/utils/*.ts"],
-            "@hooks/*": ["./src/hooks/*.ts"],
-            "@types": ["./src/types.ts"],
-            "@index": ["./src/index.ts"]
-        }
+        "noEmit": false
     },
-    "exclude": ["node_modules", "anime_uploads"]
+    "exclude": ["node_modules"]
 }
