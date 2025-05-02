@@ -22,9 +22,9 @@ A zero-dependency TypeScript library for parsing HashiCorp Configuration Languag
 ## 🚀 Installation
 
 ```bash
-npm i hcl-unmarshal
+npm i @openanime/hcl-unmarshal
 # or
-pnpm i hcl-unmarshal
+pnpm i @openanime/hcl-unmarshal
 ```
 
 ---
@@ -32,7 +32,7 @@ pnpm i hcl-unmarshal
 ## 💡 Quick Start
 
 ```ts
-import { hclToJson } from 'hcl-unmarshal';
+import { hclToJson } from '@openanime/hcl-unmarshal';
 
 const hcl = `
 variable "env" {
