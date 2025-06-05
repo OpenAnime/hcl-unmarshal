@@ -11,23 +11,37 @@ const CHARS = [
     ['<<', TOKENS.HEREDOC],
 ];
 
-function clearQuotes(match: string) {
-    return match[0] === '"' ? match : '';
-}
-
-export function tokenize(input: string) {
+export function tokenize(input: string): string {
     let result = input;
 
-    result = result.replace(/".+?"|\#[\s\S]*?.*/gim, clearQuotes);
-    result = result.replace(/".+?"|\/\*[\s\S]*?\*\/|\/\/.*/gm, clearQuotes);
+    // escaped quotes
+    const stringLiteralRegex = /"(?:\\.|[^"\\])*"/g;
+    const strings: string[] = [];
+
+    // placeholder
+    result = result.replace(stringLiteralRegex, (match) => {
+        strings.push(match);
+        return `___STRING_${strings.length - 1}___`;
+    });
+
+    result = result.replace(/\#.*/g, '');
+    result = result.replace(/\/\/.*/g, '');
+    result = result.replace(/\/\*[\s\S]*?\*\//g, '');
 
     for (const [char, token] of CHARS) {
-        const esc = char.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-        const re = new RegExp(`".+?"|(${esc})`, 'g');
-        result = result.replace(re, (m, g1) => (g1 ? ` ${token} ` : m));
+        const escChar = char.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const re = new RegExp(escChar, 'g');
+        result = result.replace(re, ` ${token} `);
     }
 
-    result = result.replace(/\s+(?=([^"]*"[^"]*")*[^"]*$)/gm, TOKENS.SPACE);
+    result = result.trim();
+    result = result.replace(/\s+/g, TOKENS.SPACE);
+
+    // restore
+    result = result.replace(/___STRING_(\d+)___/g, (match, indexStr) => {
+        const index = parseInt(indexStr, 10);
+        return strings[index];
+    });
 
     return result;
 }

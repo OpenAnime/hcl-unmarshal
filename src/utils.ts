@@ -8,22 +8,32 @@ export function getHereDoc(input: string, token: string): [string, string] {
     return [part, remaining];
 }
 
-export function doConversions(raw: string): string | number | boolean {
-    let part = raw.replace(/^"/, '').replace(/"$/, '').replace(/"/g, '\\"');
+export function doConversions(hclStringContent: string) {
+    let val = hclStringContent;
 
-    if (part === 'false') {
+    val = val.replace(/\\\\/g, '\uFFFE'); // temp placeholder for literal backslash
+    val = val.replace(/\\"/g, '"');
+    val = val.replace(/\\n/g, '\n');
+    val = val.replace(/\\r/g, '\r');
+    val = val.replace(/\\t/g, '\t');
+    val = val.replace(/\\f/g, '\f');
+    val = val.replace(/\\b/g, '\b');
+    val = val.replace(/\uFFFE/g, '\\'); // restoring literal backslash
+
+    if (val === 'false') {
         return false;
     }
-    if (part === 'true') {
+    if (val === 'true') {
         return true;
     }
 
-    if (part === '') return part;
+    if (val === '') return val;
 
-    const num = Number(part);
-    if (!isNaN(num)) {
+    const num = Number(val);
+
+    if (!isNaN(num) && val.trim() === String(num).trim() && val.trim() !== '') {
         return num;
     }
 
-    return part;
+    return val;
 }

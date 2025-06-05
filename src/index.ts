@@ -74,7 +74,7 @@ export function hclToJson(hclInput: string) {
     }
 
     const tokenString = tokenize(hclInput);
-    const rawTokens = tokenString.split(TOKENS.SPACE).filter((t) => t && t !== TOKENS.COMMA);
+    const rawTokens = tokenString.split(TOKENS.SPACE).filter((t) => t);
 
     const idxRef = { idx: 0 };
     const peek = () => rawTokens[idxRef.idx] ?? null;
